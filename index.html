@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Phish Detector</title>
 
-  <!-- Favicon (optional, add favicon.ico to repo root) -->
+  <!-- Favicon -->
   <link rel="icon" href="favicon.ico" />
 
   <!-- Google Font -->
@@ -20,7 +20,7 @@
       padding: 20px;
     }
     .container {
-      max-width: 800px;
+      max-width: 1000px;
       margin: 0 auto;
       background: #1e293b;
       padding: 30px;
@@ -38,6 +38,16 @@
       color: #94a3b8;
       margin-bottom: 24px;
     }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 12px; margin-bottom: 24px; justify-content: center; }
+    .tab { padding: 10px 18px; border-radius: 8px; cursor: pointer; background: #0f172a; border: 1px solid #3b82f6; font-weight: 600; }
+    .tab.active { background: #3b82f6; color: #04203b; }
+
+    /* Tab content */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
     textarea {
       width: 100%;
       height: 150px;
@@ -50,37 +60,13 @@
       background: #0f172a;
       color: #f8fafc;
     }
-    button {
-      background: #3b82f6;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 8px;
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      margin-right: 8px;
-      transition: background 0.2s;
-    }
+    button { background: #3b82f6; border: none; padding: 12px 20px; border-radius: 8px; color: #fff; font-weight: 600; cursor: pointer; margin-right: 8px; transition: background 0.2s; }
     button:hover { background: #2563eb; }
-    #result {
-      margin-top: 18px;
-      padding: 14px;
-      border-radius: 8px;
-      display: none;
-      font-weight: 600;
-    }
+    #result { margin-top: 18px; padding: 14px; border-radius: 8px; display: none; font-weight: 600; }
     .safe { background: #064e3b; color: #d1fae5; }
     .suspicious { background: #7f1d1d; color: #fee2e2; }
-    footer {
-      margin-top: 32px;
-      text-align: center;
-      font-size: 14px;
-      color: #94a3b8;
-    }
-    @media (max-width:600px){
-      .container { padding: 20px; }
-      textarea { height: 120px; }
-    }
+    footer { margin-top: 32px; text-align: center; font-size: 14px; color: #94a3b8; }
+    @media (max-width:600px){ .container { padding: 20px; } textarea { height: 120px; } }
   </style>
 </head>
 <body>
@@ -88,15 +74,51 @@
     <h1>Phish Detector</h1>
     <p class="subhead">Paste an email or URL below to check if it looks suspicious 🚨</p>
 
-    <label for="emailText" class="sr-only">Email text</label>
-    <textarea id="emailText" placeholder="Paste email text or suspicious message here..."></textarea>
-
-    <div>
-      <button id="checkBtn">Check Email</button>
-      <button id="exampleBtn">Insert Example Spam</button>
+    <div class="tabs">
+      <div class="tab active" data-tab="detect">Detect</div>
+      <div class="tab" data-tab="quick">Quick Check</div>
+      <div class="tab" data-tab="privacy">Privacy</div>
+      <div class="tab" data-tab="tips">Tips</div>
     </div>
 
-    <div id="result"></div>
+    <!-- Detect Tab -->
+    <div class="tab-content active" id="detect">
+      <textarea id="emailText" placeholder="Paste email text or suspicious message here..."></textarea>
+      <div>
+        <button id="checkBtn">Check Email</button>
+        <button id="exampleBtn">Insert Example Spam</button>
+      </div>
+      <div id="result"></div>
+    </div>
+
+    <!-- Quick Check Tab -->
+    <div class="tab-content" id="quick">
+      <h2>Quick Check</h2>
+      <p>Use this section to quickly check if a URL or email looks suspicious without pasting large content.</p>
+      <ul>
+        <li>Check domain name for misspellings</li>
+        <li>Look for HTTP instead of HTTPS</li>
+        <li>Avoid clicking on shortened or unfamiliar links</li>
+      </ul>
+    </div>
+
+    <!-- Privacy Tab -->
+    <div class="tab-content" id="privacy">
+      <h2>Privacy</h2>
+      <p>Your data is never sent to a server. Everything runs client-side in your browser.</p>
+      <p>Always avoid pasting personal credentials; test with sample content.</p>
+    </div>
+
+    <!-- Tips Tab -->
+    <div class="tab-content" id="tips">
+      <h2>Tips to Avoid Phishing</h2>
+      <ul>
+        <li>Check the sender's email carefully</li>
+        <li>Never give out passwords or sensitive data</li>
+        <li>Hover over links before clicking</li>
+        <li>Use multi-factor authentication wherever possible</li>
+      </ul>
+    </div>
   </div>
 
   <footer>
@@ -104,6 +126,18 @@
   </footer>
 
   <script>
+    const tabs = document.querySelectorAll('.tab');
+    const contents = document.querySelectorAll('.tab-content');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', ()=>{
+        tabs.forEach(t=>t.classList.remove('active'));
+        tab.classList.add('active');
+        const target = tab.dataset.tab;
+        contents.forEach(c=>c.classList.remove('active'));
+        document.getElementById(target).classList.add('active');
+      });
+    });
+
     const checkBtn = document.getElementById('checkBtn');
     const exampleBtn = document.getElementById('exampleBtn');
     const textarea = document.getElementById('emailText');
@@ -114,30 +148,16 @@
     checkBtn.addEventListener('click', (e)=>{
       e.preventDefault();
       const text = textarea.value.trim();
-      if(!text){
-        result.style.display = "block";
-        result.className = "";
-        result.textContent = "⚠️ Please paste some text first.";
-        return;
-      }
+      if(!text){ result.style.display='block'; result.className=''; result.textContent='⚠️ Please paste some text first.'; return; }
       const lower = text.toLowerCase();
       let score = 0;
-      spamWords.forEach(w=>{
-        if(lower.includes(w)) score++;
-      });
-      result.style.display = "block";
-      if(score >= 2){
-        result.className = "suspicious";
-        result.textContent = "🚨 Suspicious content detected! Be cautious.";
-      } else {
-        result.className = "safe";
-        result.textContent = "✅ Looks OK (low risk).";
-      }
+      spamWords.forEach(w=>{ if(lower.includes(w)) score++; });
+      result.style.display='block';
+      if(score >= 2){ result.className='suspicious'; result.textContent='🚨 Suspicious content detected! Be cautious.'; }
+      else{ result.className='safe'; result.textContent='✅ Looks OK (low risk).'; }
     });
 
-    exampleBtn.addEventListener('click', ()=>{
-      textarea.value = "Congratulations! You’ve WON $2,500,000. Verify your account and send bank details immediately.";
-    });
+    exampleBtn.addEventListener('click', ()=>{ textarea.value='Congratulations! You’ve WON $2,500,000. Verify your account and send bank details immediately.'; });
   </script>
 </body>
 </html>
