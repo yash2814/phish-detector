@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Phishing Detector</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f6f8; padding: 40px; display: flex; justify-content: center; }
+
+    .container { width: 750px; display: flex; flex-direction: column; gap: 20px; }
+
+    /* Tabs */
+    .tab {
+        background: linear-gradient(135deg, #ffffff, #f7f9fc);
+        border-radius: 12px;
+        padding: 20px 25px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    }
+    .tab:hover { transform: translateX(8px); box-shadow: 0 10px 25px rgba(0,0,0,0.12); background: #e0f3ff; }
+    .tab i { font-size: 22px; color: #1e1e1e; min-width: 30px; text-align: center; }
+    .tab h2 { font-size: 20px; font-weight: 700; }
+
+    /* Content */
+    .content {
+        display: none;
+        background: white;
+        border-radius: 0 0 12px 12px;
+        padding: 25px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.05);
+        font-size: 16px;
+        line-height: 1.8;
+        opacity: 0;
+        transform: translateY(15px);
+        transition: all 0.4s ease;
+    }
+    .content.show {
+        display: block;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Detect form */
+    textarea {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        resize: vertical;
+    }
+    button {
+        padding: 12px 28px;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(90deg, #1e90ff, #0052cc);
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    button:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
+
+    /* Result colors */
+    .result-safe { color: green; font-weight: 600; margin-top: 15px; }
+    .result-phish { color: red; font-weight: 600; margin-top: 15px; }
+
+    ul { margin-left: 20px; margin-top: 10px; }
+
+    .active-tab { background: #e0f3ff !important; }
+
+    /* Illustrations */
+    .illustration { float: right; width: 80px; height: 80px; margin-left: 15px; opacity: 0.85; }
+
+    @media(max-width: 800px) {
+        .container { width: 95%; padding: 10px; }
+        .illustration { float: none; display: block; margin: 10px auto; }
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Detect Tab -->
+  <div class="tab" id="detect-tab">
+    <i class="fas fa-envelope"></i> <h2>Detect</h2>
+  </div>
+  <div class="content" id="detect-content">
+    <img src="{{ url_for('static', filename='detect.png') }}" class="illustration" alt="Detect Icon">
+    <form method="POST">
+      <textarea name="email_text" placeholder="Paste your email here..." rows="8">{{ request.form.get('email_text') }}</textarea><br>
+      <button type="submit">Check</button>
+    </form>
+    {% if result %}
+      <div class="{% if '⚠️' in result %}result-phish{% else %}result-safe{% endif %}">{{ result }}</div>
+    {% endif %}
+  </div>
+
+  <!-- Quick Checks Tab -->
+  <div class="tab"><i class="fas fa-check-circle"></i> <h2>Quick Checks</h2></div>
+  <div class="content">
+    <img src="{{ url_for('static', filename='quick.png') }}" class="illustration" alt="Quick Checks">
+    <ul>
+      <li>Check the sender’s email address carefully.</li>
+      <li>Hover over links before clicking them.</li>
+      <li>Look for grammar/spelling mistakes.</li>
+      <li>Do not download unexpected attachments.</li>
+      <li>Verify URLs by typing them manually.</li>
+    </ul>
+  </div>
+
+  <!-- Privacy Tab -->
+  <div class="tab"><i class="fas fa-shield-alt"></i> <h2>Privacy</h2></div>
+  <div class="content">
+    <img src="{{ url_for('static', filename='privacy.png') }}" class="illustration" alt="Privacy">
+    <p>Protecting your personal information is crucial. Always be careful with emails requesting sensitive data like passwords, banking info, or personal details.</p>
+    <p>Never share passwords over email, and enable two-factor authentication wherever possible. Awareness is the first step to staying safe online.</p>
+  </div>
+
+  <!-- Tips Tab -->
+  <div class="tab"><i class="fas fa-lightbulb"></i> <h2>Tips</h2></div>
+  <div class="content">
+    <img src="{{ url_for('static', filename='tips.png') }}" class="illustration" alt="Tips">
+    <ul>
+      <li>Enable two-factor authentication on your accounts.</li>
+      <li>Keep software updated.</li>
+      <li>Be cautious with links in urgent messages.</li>
+      <li>Use strong, unique passwords and a password manager.</li>
+      <li>Always verify unexpected attachments and links.</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const contents = document.querySelectorAll('.content');
+
+  function closeAllTabs() {
+      contents.forEach(c => { c.classList.remove('show'); });
+      tabs.forEach(t => t.classList.remove('active-tab'));
+  }
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener('click', () => {
+      const content = tab.nextElementSibling;
+      if(content.classList.contains('show')){
+          content.classList.remove('show');
+          tab.classList.remove('active-tab');
+      } else {
+          closeAllTabs();
+          content.classList.add('show');
+          tab.classList.add('active-tab');
+      }
+    });
+  });
+
+  // Keep Detect tab open if result exists
+  {% if result %}
+    document.getElementById('detect-content').classList.add('show');
+    document.getElementById('detect-tab').classList.add('active-tab');
+  {% endif %}
+</script>
+
+</body>
+</html>

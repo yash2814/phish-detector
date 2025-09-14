@@ -1,0 +1,7 @@
+text,label
+"Dear user, your bank account will be closed unless you verify at http://fake-bank.example/login","phishing"
+"Hey Priya — can we reschedule our meeting to 3pm? Thanks!","legitimate"
+"Important: Update your payment information now at http://secure-update.example","phishing"
+"Monthly newsletter: new features and tips to get started","legitimate"
+"We detected unusual activity. Click http://verify.example to secure your account","phishing"
+"Hi team, attached the report for July. Please review.","legitimate"

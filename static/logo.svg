@@ -1,0 +1,23 @@
+<!-- logo.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200" role="img" aria-label="Phishing Detector logo">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#111" stop-opacity="1"/>
+      <stop offset="1" stop-color="#555" stop-opacity="1"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Shield -->
+  <path fill="url(#g)" stroke="#000" stroke-width="2" d="M100 12
+      L34 40
+      L34 100
+      C34 142 64 176 100 188
+      C136 176 166 142 166 100
+      L166 40 Z" />
+
+  <!-- Check mark -->
+  <path d="M70 98 L92 120 L132 80" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Outer ring (subtle) -->
+  <circle cx="100" cy="100" r="96" fill="none" stroke="#111" stroke-opacity="0.06" stroke-width="8"/>
+</svg>
