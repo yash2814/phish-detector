@@ -48,15 +48,13 @@
   .tab-content {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.5s ease, opacity 0.5s ease;
+    transition: max-height 0.5s ease, opacity 0.5s ease, padding 0.5s ease;
     opacity: 0;
     width: 100%;
     padding: 0 12px;
   }
   .tab-content.show {
-    max-height: 1000px;
     opacity: 1;
-    margin-bottom: 20px;
     padding: 12px;
   }
   textarea {
@@ -142,43 +140,68 @@
     </ul>
   </div>
 </div>
+
 <footer>© 2025 Phish Detector · Built with HTML, CSS & JavaScript · Hosted on GitHub Pages</footer>
+
 <script>
 const tabs = document.querySelectorAll('.tab');
 const contents = document.querySelectorAll('.tab-content');
+
 tabs.forEach(tab => {
-  tab.addEventListener('click', ()=>{
+  tab.addEventListener('click', () => {
     const targetContent = document.getElementById(tab.dataset.tab);
-    if(targetContent.classList.contains('show')){
-      // Close if already open
+    const isOpen = targetContent.classList.contains('show');
+    
+    if (isOpen) {
+      targetContent.style.maxHeight = null;
       targetContent.classList.remove('show');
       tab.classList.remove('active');
     } else {
-      contents.forEach(c => c.classList.remove('show'));
+      contents.forEach(c => {
+        c.style.maxHeight = null;
+        c.classList.remove('show');
+      });
       tabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
+
       targetContent.classList.add('show');
+      tab.classList.add('active');
+      targetContent.style.maxHeight = targetContent.scrollHeight + "px";
     }
   });
 });
 
+// Phishing Detection
 const checkBtn = document.getElementById('checkBtn');
 const exampleBtn = document.getElementById('exampleBtn');
 const textarea = document.getElementById('emailText');
 const result = document.getElementById('result');
 const spamWords = ["verify","password","urgent","bank","login","suspended","congratulations","prize","account"];
-checkBtn.addEventListener('click', (e)=>{
+
+checkBtn.addEventListener('click', (e) => {
   e.preventDefault();
   const text = textarea.value.trim();
-  if(!text){ result.style.display='block'; result.className=''; result.textContent='⚠️ Please paste some text first.'; return; }
+  if(!text){
+    result.style.display='block';
+    result.className='';
+    result.textContent='⚠️ Please paste some text first.';
+    return;
+  }
   const lower = text.toLowerCase();
   let score = 0;
-  spamWords.forEach(w=>{ if(lower.includes(w)) score++; });
+  spamWords.forEach(w => { if(lower.includes(w)) score++; });
   result.style.display='block';
-  if(score >= 2){ result.className='suspicious'; result.textContent='🚨 Suspicious content detected! Be cautious.'; }
-  else{ result.className='safe'; result.textContent='✅ Looks OK (low risk).'; }
+  if(score >= 2){
+    result.className='suspicious';
+    result.textContent='🚨 Suspicious content detected! Be cautious.';
+  } else {
+    result.className='safe';
+    result.textContent='✅ Looks OK (low risk).';
+  }
 });
-exampleBtn.addEventListener('click', ()=>{ textarea.value='Congratulations! You’ve WON $2,500,000. Verify your account and send bank details immediately.'; });
+
+exampleBtn.addEventListener('click', () => {
+  textarea.value = 'Congratulations! You’ve WON $2,500,000. Verify your account and send bank details immediately.';
+});
 </script>
 </body>
 </html>
