@@ -1,66 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Phishing Detector</title>
-<link rel="stylesheet" href="style.css">
-<script defer src="script.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DetectMail - Phishing Protection</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<div class="container">
-
-  <!-- Detect Tab -->
-  <div class="tab" onclick="toggleTab('detect')">
-    <i class="fas fa-envelope"></i> <h2>Detect</h2>
-  </div>
-  <div class="content" id="detect">
-    <img src="images/detect.png" class="illustration" alt="Detect Icon">
-    <textarea id="emailInput" placeholder="Paste your email here..." rows="8"></textarea><br>
-    <button onclick="checkEmail()">Check</button>
-    <div id="result"></div>
-  </div>
-
-  <!-- Quick Checks -->
-  <div class="tab" onclick="toggleTab('quick')">
-    <i class="fas fa-check-circle"></i> <h2>Quick Checks</h2>
-  </div>
-  <div class="content" id="quick">
-    <img src="images/quick.png" class="illustration" alt="Quick Checks">
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">🔒 DetectMail</div>
     <ul>
-      <li>Check the sender’s email address carefully.</li>
-      <li>Hover over links before clicking them.</li>
-      <li>Look for grammar/spelling mistakes.</li>
-      <li>Do not download unexpected attachments.</li>
-      <li>Verify URLs by typing them manually.</li>
+      <li><a href="#">Home</a></li>
+      <li><a href="#detect">Detect</a></li>
+      <li><a href="#quick">Quick Checks</a></li>
+      <li><a href="#privacy">Privacy</a></li>
+      <li><a href="#tips">Tips</a></li>
     </ul>
-  </div>
+  </nav>
 
-  <!-- Privacy -->
-  <div class="tab" onclick="toggleTab('privacy')">
-    <i class="fas fa-shield-alt"></i> <h2>Privacy</h2>
-  </div>
-  <div class="content" id="privacy">
-    <img src="images/privacy.png" class="illustration" alt="Privacy">
-    <p>Protecting your personal information is crucial. Be careful with emails requesting sensitive data like passwords, banking info, or personal details.</p>
-  </div>
+  <!-- Hero Section -->
+  <header class="hero">
+    <h1>Stay Safe from Phishing Emails 🛡️</h1>
+    <p>DetectMail helps you identify suspicious emails, protect your privacy, and stay secure online.</p>
+  </header>
 
-  <!-- Tips -->
-  <div class="tab" onclick="toggleTab('tips')">
-    <i class="fas fa-lightbulb"></i> <h2>Tips</h2>
-  </div>
-  <div class="content" id="tips">
-    <img src="images/tips.png" class="illustration" alt="Tips">
-    <ul>
-      <li>Enable two-factor authentication on your accounts.</li>
-      <li>Keep software updated.</li>
-      <li>Be cautious with links in urgent messages.</li>
-      <li>Use strong, unique passwords and a password manager.</li>
-    </ul>
-  </div>
+  <!-- Stacked Cards -->
+  <main class="main">
 
-</div>
+    <!-- Detect -->
+    <section class="card" id="detect">
+      <img src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" alt="Detect Icon">
+      <h3>Detect Phishing</h3>
+      <p>Paste your email content below and let our system check for phishing risks.</p>
+      <textarea placeholder="Paste suspicious email here..."></textarea>
+      <button class="btn">Check Email</button>
+      <div class="result-box" id="result">Your result will appear here...</div>
+    </section>
+
+    <!-- Quick Checks -->
+    <section class="card" id="quick">
+      <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Quick Check Icon">
+      <h3>Quick Checks Before Trusting an Email</h3>
+      <ul class="list">
+        <li>✅ Check the sender's email domain</li>
+        <li>✅ Look for spelling & grammar errors</li>
+        <li>✅ Don’t click unknown links</li>
+        <li>✅ Be careful with attachments</li>
+      </ul>
+    </section>
+
+    <!-- Privacy -->
+    <section class="card" id="privacy">
+      <img src="https://cdn-icons-png.flaticon.com/512/2889/2889676.png" alt="Privacy Icon">
+      <h3>Privacy Protection</h3>
+      <p>Learn how to protect your personal information while browsing and handling emails.</p>
+      <p>We never store or share the emails you test here. Your security is our priority.</p>
+    </section>
+
+    <!-- Tips -->
+    <section class="card" id="tips">
+      <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Tips Icon">
+      <h3>Security Tips</h3>
+      <ul class="list">
+        <li>🔐 Enable 2FA wherever possible</li>
+        <li>🛡️ Keep software updated</li>
+        <li>📩 Don’t overshare your email address</li>
+        <li>🚫 Avoid public Wi-Fi for sensitive tasks</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 DetectMail | Built for safe browsing | <a href="https://github.com/your-username/your-repo">GitHub</a></p>
+  </footer>
 
 </body>
 </html>
