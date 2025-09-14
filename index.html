@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Phishing Detector</title>
+<link rel="stylesheet" href="style.css">
+<script defer src="script.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Detect Tab -->
+  <div class="tab" onclick="toggleTab('detect')">
+    <i class="fas fa-envelope"></i> <h2>Detect</h2>
+  </div>
+  <div class="content" id="detect">
+    <img src="images/detect.png" class="illustration" alt="Detect Icon">
+    <textarea id="emailInput" placeholder="Paste your email here..." rows="8"></textarea><br>
+    <button onclick="checkEmail()">Check</button>
+    <div id="result"></div>
+  </div>
+
+  <!-- Quick Checks -->
+  <div class="tab" onclick="toggleTab('quick')">
+    <i class="fas fa-check-circle"></i> <h2>Quick Checks</h2>
+  </div>
+  <div class="content" id="quick">
+    <img src="images/quick.png" class="illustration" alt="Quick Checks">
+    <ul>
+      <li>Check the sender’s email address carefully.</li>
+      <li>Hover over links before clicking them.</li>
+      <li>Look for grammar/spelling mistakes.</li>
+      <li>Do not download unexpected attachments.</li>
+      <li>Verify URLs by typing them manually.</li>
+    </ul>
+  </div>
+
+  <!-- Privacy -->
+  <div class="tab" onclick="toggleTab('privacy')">
+    <i class="fas fa-shield-alt"></i> <h2>Privacy</h2>
+  </div>
+  <div class="content" id="privacy">
+    <img src="images/privacy.png" class="illustration" alt="Privacy">
+    <p>Protecting your personal information is crucial. Be careful with emails requesting sensitive data like passwords, banking info, or personal details.</p>
+  </div>
+
+  <!-- Tips -->
+  <div class="tab" onclick="toggleTab('tips')">
+    <i class="fas fa-lightbulb"></i> <h2>Tips</h2>
+  </div>
+  <div class="content" id="tips">
+    <img src="images/tips.png" class="illustration" alt="Tips">
+    <ul>
+      <li>Enable two-factor authentication on your accounts.</li>
+      <li>Keep software updated.</li>
+      <li>Be cautious with links in urgent messages.</li>
+      <li>Use strong, unique passwords and a password manager.</li>
+    </ul>
+  </div>
+
+</div>
+
+</body>
+</html>
