@@ -3,82 +3,243 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DetectMail - Phishing Protection</title>
-  <link rel="stylesheet" href="style.css">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Phishing Detector</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, #eef2f3, #8e9eab);
+      color: #222;
+      scroll-behavior: smooth; /* enables smooth scroll */
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      background: #1e293b;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      font-weight: 600;
+      z-index: 1000;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    header h1 {
+      font-size: 22px;
+      margin: 0;
+    }
+
+    nav a {
+      margin: 0 12px;
+      text-decoration: none;
+      color: white;
+      font-size: 16px;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover, nav a.active {
+      color: #38bdf8; /* light blue highlight */
+    }
+
+    section {
+      padding: 70px 20px;
+      max-width: 900px;
+      margin: 40px auto;
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    section:hover {
+      transform: translateY(-4px);
+    }
+
+    h2 {
+      font-size: 26px;
+      color: #1e293b;
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #444;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 15px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      resize: vertical;
+      margin-bottom: 15px;
+      transition: border 0.3s;
+    }
+
+    textarea:focus {
+      outline: none;
+      border: 1px solid #2563eb;
+    }
+
+    .btn {
+      background: #2563eb;
+      color: white;
+      padding: 12px 22px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn:hover {
+      background: #1e40af;
+      transform: scale(1.05);
+    }
+
+    .result-box {
+      margin-top: 20px;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
+      display: none;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #1e293b;
+      color: white;
+      font-size: 14px;
+      margin-top: 30px;
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="logo">🔒 DetectMail</div>
-    <ul>
-      <li><a href="#">Home</a></li>
-      <li><a href="#detect">Detect</a></li>
-      <li><a href="#quick">Quick Checks</a></li>
-      <li><a href="#privacy">Privacy</a></li>
-      <li><a href="#tips">Tips</a></li>
-    </ul>
-  </nav>
-
-  <!-- Hero Section -->
-  <header class="hero">
-    <h1>Stay Safe from Phishing Emails 🛡️</h1>
-    <p>DetectMail helps you identify suspicious emails, protect your privacy, and stay secure online.</p>
+  <!-- Sticky Navbar -->
+  <header>
+    <h1>🔒 Phishing Detector</h1>
+    <nav>
+      <a href="#detect">Detect</a>
+      <a href="#quick-checks">Quick Checks</a>
+      <a href="#privacy">Privacy</a>
+      <a href="#tips">Tips</a>
+    </nav>
   </header>
 
-  <!-- Stacked Cards -->
-  <main class="main">
+  <!-- Detect Section -->
+  <section id="detect">
+    <h2>Detect Suspicious Emails</h2>
+    <p>Paste the email text below and click <b>Check Email</b> to detect possible phishing attempts.</p>
+    <textarea id="emailInput" rows="6" placeholder="Paste email text here..."></textarea><br>
+    <button class="btn" id="checkBtn">Check Email</button>
+    <div class="result-box" id="result"></div>
+  </section>
 
-    <!-- Detect -->
-    <section class="card" id="detect">
-      <img src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" alt="Detect Icon">
-      <h3>Detect Phishing</h3>
-      <p>Paste your email content below and let our system check for phishing risks.</p>
-      <textarea placeholder="Paste suspicious email here..."></textarea>
-      <button class="btn">Check Email</button>
-      <div class="result-box" id="result">Your result will appear here...</div>
-    </section>
+  <!-- Quick Checks Section -->
+  <section id="quick-checks">
+    <h2>Quick Checks Before Trusting an Email</h2>
+    <p>✔ Look for spelling mistakes or strange formatting.<br>
+       ✔ Check the sender's email address carefully.<br>
+       ✔ Don’t click on suspicious links.<br>
+       ✔ Hover over links to see the real destination.</p>
+  </section>
 
-    <!-- Quick Checks -->
-    <section class="card" id="quick">
-      <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Quick Check Icon">
-      <h3>Quick Checks Before Trusting an Email</h3>
-      <ul class="list">
-        <li>✅ Check the sender's email domain</li>
-        <li>✅ Look for spelling & grammar errors</li>
-        <li>✅ Don’t click unknown links</li>
-        <li>✅ Be careful with attachments</li>
-      </ul>
-    </section>
+  <!-- Privacy Section -->
+  <section id="privacy">
+    <h2>Protect Your Privacy</h2>
+    <p>Your personal data is valuable. Avoid sharing sensitive information like passwords, credit card numbers, or OTPs over email. Legitimate companies never ask for such details via email.</p>
+  </section>
 
-    <!-- Privacy -->
-    <section class="card" id="privacy">
-      <img src="https://cdn-icons-png.flaticon.com/512/2889/2889676.png" alt="Privacy Icon">
-      <h3>Privacy Protection</h3>
-      <p>Learn how to protect your personal information while browsing and handling emails.</p>
-      <p>We never store or share the emails you test here. Your security is our priority.</p>
-    </section>
+  <!-- Tips Section -->
+  <section id="tips">
+    <h2>Tips to Avoid Phishing</h2>
+    <p>🛡 Enable two-factor authentication.<br>
+       🛡 Keep your software and antivirus updated.<br>
+       🛡 Report suspicious emails immediately.<br>
+       🛡 Trust your instincts – if something feels off, don’t engage.</p>
+  </section>
 
-    <!-- Tips -->
-    <section class="card" id="tips">
-      <img src="https://cdn-icons-png.flaticon.com/512/1828/1828884.png" alt="Tips Icon">
-      <h3>Security Tips</h3>
-      <ul class="list">
-        <li>🔐 Enable 2FA wherever possible</li>
-        <li>🛡️ Keep software updated</li>
-        <li>📩 Don’t overshare your email address</li>
-        <li>🚫 Avoid public Wi-Fi for sensitive tasks</li>
-      </ul>
-    </section>
-
-  </main>
-
-  <!-- Footer -->
   <footer>
-    <p>© 2025 DetectMail | Built for safe browsing | <a href="https://github.com/your-username/your-repo">GitHub</a></p>
+    © 2025 Phishing Detector | Stay Safe Online
   </footer>
+
+  <script>
+    // Highlight active navbar tab while scrolling
+    const sections = document.querySelectorAll("section");
+    const navLinks = document.querySelectorAll("nav a");
+
+    window.addEventListener("scroll", () => {
+      let current = "";
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        if (pageYOffset >= sectionTop) {
+          current = section.getAttribute("id");
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove("active");
+        if (link.getAttribute("href") === "#" + current) {
+          link.classList.add("active");
+        }
+      });
+    });
+
+    // Phishing detection logic
+    document.getElementById("checkBtn").addEventListener("click", function() {
+      const emailText = document.getElementById("emailInput").value.toLowerCase();
+      const resultBox = document.getElementById("result");
+
+      resultBox.style.display = "block"; // show result
+
+      if (!emailText.trim()) {
+        resultBox.textContent = "⚠️ Please paste an email to check.";
+        resultBox.style.background = "#fef3c7";
+        resultBox.style.color = "#92400e";
+        return;
+      }
+
+      const phishingKeywords = ["password", "bank", "urgent", "click here", "verify", "login", "credit card"];
+      let isPhishing = false;
+
+      phishingKeywords.forEach(word => {
+        if (emailText.includes(word)) {
+          isPhishing = true;
+        }
+      });
+
+      if (isPhishing) {
+        resultBox.textContent = "🚨 Warning: This email looks like a Phishing attempt!";
+        resultBox.style.background = "#fee2e2";
+        resultBox.style.color = "#991b1b";
+      } else {
+        resultBox.textContent = "✅ Safe: No phishing patterns detected.";
+        resultBox.style.background = "#dcfce7";
+        resultBox.style.color = "#166534";
+      }
+
+      // Clear textarea after result
+      document.getElementById("emailInput").value = "";
+    });
+  </script>
 
 </body>
 </html>
