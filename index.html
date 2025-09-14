@@ -1,245 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Phishing Detector</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phish Detector</title>
+
+  <!-- Favicon (optional, add favicon.ico to repo root) -->
+  <link rel="icon" href="favicon.ico" />
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+
   <style>
     body {
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Inter', system-ui, sans-serif;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: #e2e8f0;
       margin: 0;
-      background: linear-gradient(135deg, #eef2f3, #8e9eab);
-      color: #222;
-      scroll-behavior: smooth; /* enables smooth scroll */
+      padding: 20px;
     }
-
-    header {
-      position: sticky;
-      top: 0;
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
       background: #1e293b;
-      color: white;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px 30px;
-      font-weight: 600;
-      z-index: 1000;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
     }
-
-    header h1 {
-      font-size: 22px;
-      margin: 0;
+    h1 {
+      text-align: center;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #f1f5f9;
     }
-
-    nav a {
-      margin: 0 12px;
-      text-decoration: none;
-      color: white;
-      font-size: 16px;
-      font-weight: 500;
-      transition: color 0.3s ease;
+    p.subhead {
+      text-align: center;
+      color: #94a3b8;
+      margin-bottom: 24px;
     }
-
-    nav a:hover, nav a.active {
-      color: #38bdf8; /* light blue highlight */
-    }
-
-    section {
-      padding: 70px 20px;
-      max-width: 900px;
-      margin: 40px auto;
-      background: white;
-      border-radius: 14px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
-    }
-
-    section:hover {
-      transform: translateY(-4px);
-    }
-
-    h2 {
-      font-size: 26px;
-      color: #1e293b;
-      margin-bottom: 15px;
-    }
-
-    p {
-      font-size: 16px;
-      line-height: 1.6;
-      color: #444;
-    }
-
     textarea {
       width: 100%;
-      padding: 15px;
-      font-size: 16px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      resize: vertical;
-      margin-bottom: 15px;
-      transition: border 0.3s;
-    }
-
-    textarea:focus {
-      outline: none;
-      border: 1px solid #2563eb;
-    }
-
-    .btn {
-      background: #2563eb;
-      color: white;
-      padding: 12px 22px;
-      font-size: 16px;
-      border: none;
+      height: 150px;
+      padding: 12px;
       border-radius: 8px;
+      border: none;
+      resize: vertical;
+      font-size: 15px;
+      margin-bottom: 12px;
+      background: #0f172a;
+      color: #f8fafc;
+    }
+    button {
+      background: #3b82f6;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      color: #fff;
+      font-weight: 600;
       cursor: pointer;
-      font-weight: 600;
-      transition: background 0.3s ease, transform 0.2s ease;
+      margin-right: 8px;
+      transition: background 0.2s;
     }
-
-    .btn:hover {
-      background: #1e40af;
-      transform: scale(1.05);
-    }
-
-    .result-box {
-      margin-top: 20px;
-      padding: 15px;
-      border-radius: 10px;
-      font-size: 18px;
-      font-weight: 600;
-      text-align: center;
+    button:hover { background: #2563eb; }
+    #result {
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 8px;
       display: none;
-      animation: fadeIn 0.5s ease-in-out;
+      font-weight: 600;
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
+    .safe { background: #064e3b; color: #d1fae5; }
+    .suspicious { background: #7f1d1d; color: #fee2e2; }
     footer {
+      margin-top: 32px;
       text-align: center;
-      padding: 20px;
-      background: #1e293b;
-      color: white;
       font-size: 14px;
-      margin-top: 30px;
+      color: #94a3b8;
+    }
+    @media (max-width:600px){
+      .container { padding: 20px; }
+      textarea { height: 120px; }
     }
   </style>
 </head>
 <body>
+  <div class="container">
+    <h1>Phish Detector</h1>
+    <p class="subhead">Paste an email or URL below to check if it looks suspicious 🚨</p>
 
-  <!-- Sticky Navbar -->
-  <header>
-    <h1>🔒 Phishing Detector</h1>
-    <nav>
-      <a href="#detect">Detect</a>
-      <a href="#quick-checks">Quick Checks</a>
-      <a href="#privacy">Privacy</a>
-      <a href="#tips">Tips</a>
-    </nav>
-  </header>
+    <label for="emailText" class="sr-only">Email text</label>
+    <textarea id="emailText" placeholder="Paste email text or suspicious message here..."></textarea>
 
-  <!-- Detect Section -->
-  <section id="detect">
-    <h2>Detect Suspicious Emails</h2>
-    <p>Paste the email text below and click <b>Check Email</b> to detect possible phishing attempts.</p>
-    <textarea id="emailInput" rows="6" placeholder="Paste email text here..."></textarea><br>
-    <button class="btn" id="checkBtn">Check Email</button>
-    <div class="result-box" id="result"></div>
-  </section>
+    <div>
+      <button id="checkBtn">Check Email</button>
+      <button id="exampleBtn">Insert Example Spam</button>
+    </div>
 
-  <!-- Quick Checks Section -->
-  <section id="quick-checks">
-    <h2>Quick Checks Before Trusting an Email</h2>
-    <p>✔ Look for spelling mistakes or strange formatting.<br>
-       ✔ Check the sender's email address carefully.<br>
-       ✔ Don’t click on suspicious links.<br>
-       ✔ Hover over links to see the real destination.</p>
-  </section>
-
-  <!-- Privacy Section -->
-  <section id="privacy">
-    <h2>Protect Your Privacy</h2>
-    <p>Your personal data is valuable. Avoid sharing sensitive information like passwords, credit card numbers, or OTPs over email. Legitimate companies never ask for such details via email.</p>
-  </section>
-
-  <!-- Tips Section -->
-  <section id="tips">
-    <h2>Tips to Avoid Phishing</h2>
-    <p>🛡 Enable two-factor authentication.<br>
-       🛡 Keep your software and antivirus updated.<br>
-       🛡 Report suspicious emails immediately.<br>
-       🛡 Trust your instincts – if something feels off, don’t engage.</p>
-  </section>
+    <div id="result"></div>
+  </div>
 
   <footer>
-    © 2025 Phishing Detector | Stay Safe Online
+    © 2025 Phish Detector · Built with HTML, CSS & JavaScript · Hosted on GitHub Pages
   </footer>
 
   <script>
-    // Highlight active navbar tab while scrolling
-    const sections = document.querySelectorAll("section");
-    const navLinks = document.querySelectorAll("nav a");
+    const checkBtn = document.getElementById('checkBtn');
+    const exampleBtn = document.getElementById('exampleBtn');
+    const textarea = document.getElementById('emailText');
+    const result = document.getElementById('result');
 
-    window.addEventListener("scroll", () => {
-      let current = "";
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop - 100;
-        if (pageYOffset >= sectionTop) {
-          current = section.getAttribute("id");
-        }
-      });
+    const spamWords = ["verify","password","urgent","bank","login","suspended","congratulations","prize","account"];
 
-      navLinks.forEach(link => {
-        link.classList.remove("active");
-        if (link.getAttribute("href") === "#" + current) {
-          link.classList.add("active");
-        }
-      });
-    });
-
-    // Phishing detection logic
-    document.getElementById("checkBtn").addEventListener("click", function() {
-      const emailText = document.getElementById("emailInput").value.toLowerCase();
-      const resultBox = document.getElementById("result");
-
-      resultBox.style.display = "block"; // show result
-
-      if (!emailText.trim()) {
-        resultBox.textContent = "⚠️ Please paste an email to check.";
-        resultBox.style.background = "#fef3c7";
-        resultBox.style.color = "#92400e";
+    checkBtn.addEventListener('click', (e)=>{
+      e.preventDefault();
+      const text = textarea.value.trim();
+      if(!text){
+        result.style.display = "block";
+        result.className = "";
+        result.textContent = "⚠️ Please paste some text first.";
         return;
       }
-
-      const phishingKeywords = ["password", "bank", "urgent", "click here", "verify", "login", "credit card"];
-      let isPhishing = false;
-
-      phishingKeywords.forEach(word => {
-        if (emailText.includes(word)) {
-          isPhishing = true;
-        }
+      const lower = text.toLowerCase();
+      let score = 0;
+      spamWords.forEach(w=>{
+        if(lower.includes(w)) score++;
       });
-
-      if (isPhishing) {
-        resultBox.textContent = "🚨 Warning: This email looks like a Phishing attempt!";
-        resultBox.style.background = "#fee2e2";
-        resultBox.style.color = "#991b1b";
+      result.style.display = "block";
+      if(score >= 2){
+        result.className = "suspicious";
+        result.textContent = "🚨 Suspicious content detected! Be cautious.";
       } else {
-        resultBox.textContent = "✅ Safe: No phishing patterns detected.";
-        resultBox.style.background = "#dcfce7";
-        resultBox.style.color = "#166534";
+        result.className = "safe";
+        result.textContent = "✅ Looks OK (low risk).";
       }
+    });
 
-      // Clear textarea after result
-      document.getElementById("emailInput").value = "";
+    exampleBtn.addEventListener('click', ()=>{
+      textarea.value = "Congratulations! You’ve WON $2,500,000. Verify your account and send bank details immediately.";
     });
   </script>
-
 </body>
 </html>
