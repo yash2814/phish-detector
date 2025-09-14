@@ -15,6 +15,8 @@
     padding: 20px;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    min-height: 100vh;
   }
   .container {
     max-width: 600px;
@@ -23,6 +25,7 @@
     border-radius: 16px;
     padding: 20px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    flex: 1;
   }
   h1, h2 { color: #f1f5f9; }
   .tab {
@@ -83,7 +86,12 @@
   }
   .safe { background: #064e3b; color: #d1fae5; }
   .suspicious { background: #7f1d1d; color: #fee2e2; }
-  footer { text-align: center; font-size: 14px; color: #94a3b8; margin-top: 20px; }
+  footer {
+    text-align: center;
+    font-size: 14px;
+    color: #94a3b8;
+    margin-top: 20px;
+  }
 </style>
 </head>
 <body>
@@ -133,10 +141,8 @@ const tabs = document.querySelectorAll('.tab');
 const contents = document.querySelectorAll('.tab-content');
 tabs.forEach(tab => {
   tab.addEventListener('click', ()=>{
-    // Hide all
     contents.forEach(c => c.classList.remove('show'));
     tabs.forEach(t => t.classList.remove('active'));
-    // Show clicked
     tab.classList.add('active');
     document.getElementById(tab.dataset.tab).classList.add('show');
   });
